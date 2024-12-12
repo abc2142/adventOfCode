@@ -2,7 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-public class Day2a {
+public class Day2b {
     
     public static void main(String[] args) {
         // Initialize a list to store the reports
@@ -40,8 +40,8 @@ public class Day2a {
                 levels[i] = Integer.parseInt(levelsStr[i]);
             }
             
-            // Check if the report is safe
-            if (isSafe(levels)) {
+            // Check if the report is safe or if removing one level makes it safe
+            if (isSafe(levels) || canBeMadeSafeByRemovingOneLevel(levels)) {
                 safeCount++;
             }
         }
@@ -75,5 +75,25 @@ public class Day2a {
         
         // The sequence should be either all increasing or all decreasing
         return isIncreasing || isDecreasing;
+    }
+
+    // Method to check if removing a single level can make the report safe
+    public static boolean canBeMadeSafeByRemovingOneLevel(int[] levels) {
+        for (int i = 0; i < levels.length; i++) {
+            // Create a new array without the current level (removing one level)
+            int[] modifiedLevels = new int[levels.length - 1];
+            int index = 0;
+            for (int j = 0; j < levels.length; j++) {
+                if (j != i) {
+                    modifiedLevels[index++] = levels[j];
+                }
+            }
+            
+            // Check if this new array is safe
+            if (isSafe(modifiedLevels)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
